@@ -1,0 +1,10 @@
+app/code/community/Sofinco3X/Epayment
+app/design/adminhtml/default/default/layout/sf3xep.xml
+app/design/adminhtml/default/default/template/sf3xep/
+app/design/frontend/base/default/layout/sf3xep.xml
+app/design/frontend/base/default/template/sf3xep/
+app/etc/modules/Sofinco3X_Epayment.xml
+app/locale/fr_FR/Sofinco3X_Epayment.csv
+skin/adminhtml/default/default/images/sofinco/
+skin/frontend/base/default/css/sf3xep/
+skin/frontend/base/default/images/sf3xep/
