@@ -145,7 +145,7 @@ class Sofinco3X_Epayment_PaymentController extends Mage_Core_Controller_Front_Ac
 
     public function getSofinco3X()
     {
-        return Mage::getSingleton('sf3xep/sofinco');
+        return Mage::getSingleton('sf3xep/Sofinco3X');
     }
 
     public function getSession()

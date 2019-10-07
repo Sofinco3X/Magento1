@@ -58,13 +58,16 @@ class Sofinco3X_Epayment_Block_Checkout_Payment extends Mage_Payment_Block_Form_
 
         $path = 'payment/'.$this->getMethod()->getCode().'/cards';
         $cards = Mage::getStoreConfig($path, $this->getMethod()->getStore());
+		$subscription = Mage::getSingleton('sf3xep/config')->getSubscription();
         foreach ($cards as $card) {
-            $url = $this->htmlEscape($this->getSkinUrl($card['image']));
-            $alt = $this->htmlEscape($card['label']);
-            $html[] = '<img class="sf3xep-payment-logo" src="'.$url.'" alt="'.$alt.'"/>';
+			if($card['card'] == $subscription){
+				$url = $this->htmlEscape($this->getSkinUrl($card['image']));
+				$alt = $this->htmlEscape($card['label']);
+				$html[] = '<img class="sf3xep-payment-logo" src="'.$url.'" alt="'.$alt.'"/>';
+			}
         }
 
-        $html = '<span class="sf3xep-payment-label">'.implode('&nbsp;', $html).'</span>';
+        $html = $alt.'<span class="sf3xep-payment-label">'.implode('&nbsp;', $html).'</span>';
         return $html;
     }
 }

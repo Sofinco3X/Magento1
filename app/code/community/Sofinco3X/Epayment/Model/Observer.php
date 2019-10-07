@@ -85,9 +85,9 @@ class Sofinco3X_Epayment_Model_Observer extends Mage_Core_Model_Observer
 
         // Sofinco3X Direct must be activated
         $config = $method->getSofinco3XConfig();
-        if ($config->getSubscription() != Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER2 && $config->getSubscription() != Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER3) {
+        // if ($config->getSubscription() != Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER2 && $config->getSubscription() != Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER3) {
             return $this;
-        }
+        // }
 
         // Action must be "Manual"
         if ($payment->getSfx3xepAction() != Sofinco3X_Epayment_Model_Payment_Abstract::PBXACTION_MANUAL) {

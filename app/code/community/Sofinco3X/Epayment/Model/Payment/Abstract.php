@@ -59,16 +59,16 @@ abstract class Sofinco3X_Epayment_Model_Payment_Abstract extends Mage_Payment_Mo
     public function __construct()
     {
         parent::__construct();
-        $config = $this->getSofinco3XConfig();
-        if ($config->getSubscription() == Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER2 || $config->getSubscription() == Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER3) {
-            $this->_canRefund = $this->getAllowRefund();
-            $this->_canCapturePartial = ($this->getSofinco3XAction() == Sofinco3X_Epayment_Model_Payment_Abstract::PBXACTION_MANUAL);
-            $this->_canRefundInvoicePartial = $this->_canRefund;
-        } else {
+        // $config = $this->getSofinco3XConfig();
+        // if ($config->getSubscription() == Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER2 || $config->getSubscription() == Sofinco3X_Epayment_Model_Config::SUBSCRIPTION_OFFER3) {
+            // $this->_canRefund = $this->getAllowRefund();
+            // $this->_canCapturePartial = ($this->getSofinco3XAction() == Sofinco3X_Epayment_Model_Payment_Abstract::PBXACTION_MANUAL);
+            // $this->_canRefundInvoicePartial = $this->_canRefund;
+        // } else {
             $this->_canRefund = false;
             $this->_canCapturePartial = false;
             $this->_canRefundInvoicePartial = false;
-        }
+        // }
 
         $this->_canCapture = true;
     }

@@ -13,7 +13,7 @@
  * support@paybox.com so we can mail you a copy immediately.
  *
  *
- * @version   3.0.6
+ * @version   3.0.7
  * @author    BM Services <contact@bm-services.com>
  * @copyright 2012-2017 Sofinco3X
  * @license   http://opensource.org/licenses/OSL-3.0
@@ -23,7 +23,7 @@
 <config>
     <modules>
         <Sofinco3X_Epayment>
-            <version>3.0.6</version>
+            <version>3.0.7</version>
         </Sofinco3X_Epayment>
     </modules>
     <frontend>
@@ -184,15 +184,15 @@
             <environment>TEST</environment>
             <automatic_invoice>0</automatic_invoice>
             <info_to_customer>1</info_to_customer>
-            <debug>1</debug>
+            <debug>0</debug>
             <merchant>
-                <site>1999888</site>
-                <rank>77</rank>
+                <site>8888872</site>
+                <rank>072</rank>
                 <identifier>3262411</identifier>
                 <default_password>1999888I</default_password>
                 <default_hmackey>0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF</default_hmackey>
                 <hmacalgo>SHA512</hmacalgo>
-                <subscription>flexible</subscription>
+                <subscription>SOF3X</subscription>
             </merchant>
             <languages>
                 <fr>FRA</fr>
@@ -231,14 +231,14 @@
                 <cards>
                     <SOF3X>
                         <label>3XCB</label>
-                        <image>images/sf3xep/sof3X.45.png</image>
-                        <payment>LIMONETIC</payment>
+                        <image>images/sf3xep/SOF3X.45.png</image>
+                        <payment>LIMONETIK</payment>
                         <card>SOF3X</card>
                     </SOF3X>
                     <SOF3XSF>
                         <label>3XCB sans frais</label>
-                        <image>images/sf3xep/sof3Xsf.45.png</image>
-                        <payment>LIMONETIC</payment>
+                        <image>images/sf3xep/SOF3XSF.45.png</image>
+                        <payment>LIMONETIK</payment>
                         <card>SOF3XSF</card>
                     </SOF3XSF>
                 </cards>

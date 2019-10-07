@@ -26,7 +26,7 @@ class Sofinco3X_Epayment_Block_Redirect extends Mage_Page_Block_Html
     {
         $order = Mage::registry('sf3xep/order');
         $payment = $order->getPayment()->getMethodInstance();
-        $cntr = Mage::getSingleton('sf3xep/sofinco');
+        $cntr = Mage::getSingleton('sf3xep/Sofinco3X');
         $values = $cntr->buildSystemParams($order, $payment);
         $cntr->logDebug(sprintf('Values: %s', json_encode($values)));
         return $values;
@@ -44,35 +44,35 @@ class Sofinco3X_Epayment_Block_Redirect extends Mage_Page_Block_Html
 
     public function getKwixoUrl()
     {
-        $sofinco = Mage::getSingleton('sf3xep/sofinco');
+        $sofinco = Mage::getSingleton('sf3xep/Sofinco3X');
         $urls = $sofinco->getConfig()->getKwixoUrls();
         return $sofinco->checkUrls($urls);
     }
 
     public function getAncvUrl()
     {
-        $sofinco = Mage::getSingleton('sf3xep/sofinco');
+        $sofinco = Mage::getSingleton('sf3xep/Sofinco3X');
         $urls = $sofinco->getConfig()->getAncvUrls();
         return $sofinco->checkUrls($urls);
     }
 
     public function getMobileUrl()
     {
-        $sofinco = Mage::getSingleton('sf3xep/sofinco');
+        $sofinco = Mage::getSingleton('sf3xep/Sofinco3X');
         $urls = $sofinco->getConfig()->getMobileUrls();
         return $sofinco->checkUrls($urls);
     }
 
     public function getSystemUrl()
     {
-        $sofinco = Mage::getSingleton('sf3xep/sofinco');
+        $sofinco = Mage::getSingleton('sf3xep/Sofinco3X');
         $urls = $sofinco->getConfig()->getSystemUrls();
         return $sofinco->checkUrls($urls);
     }
 
     public function getResponsiveUrl()
     {
-        $sofinco = Mage::getSingleton('sf3xep/sofinco');
+        $sofinco = Mage::getSingleton('sf3xep/Sofinco3X');
         $urls = $sofinco->getConfig()->getResponsiveUrls();
         return $sofinco->checkUrls($urls);
     }

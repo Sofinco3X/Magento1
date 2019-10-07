@@ -22,9 +22,8 @@
 
 class Sofinco3X_Epayment_Model_Config
 {
-    const SUBSCRIPTION_OFFER1 = 'essential';
-    const SUBSCRIPTION_OFFER2 = 'flexible';
-    const SUBSCRIPTION_OFFER3 = 'plus';
+    const SUBSCRIPTION_OFFER1 = 'SOF3X';
+    const SUBSCRIPTION_OFFER2 = 'SOF3XSF';
 
     private $_store;
     private $_configCache = array();
@@ -45,11 +44,11 @@ class Sofinco3X_Epayment_Model_Config
     private $_urls = array(
         'system' => array(
             'test' => array(
-                'https://preprod-tpeweb.paybox.com/cgi/MYchoix_pagepaiement.cgi'
+                'https://preprod-tpeweb.paybox.com/php/'
             ),
             'production' => array(
-                'https://tpeweb.paybox.com/cgi/MYchoix_pagepaiement.cgi',
-                'https://tpeweb1.paybox.com/cgi/MYchoix_pagepaiement.cgi',
+                'https://tpeweb.paybox.com/php/',
+                'https://tpeweb1.paybox.com/php/',
             ),
         ),
         'responsive' => array(
@@ -81,11 +80,11 @@ class Sofinco3X_Epayment_Model_Config
         ),
         'mobile' => array(
             'test' => array(
-                'https://preprod-tpeweb.paybox.com/cgi/MYframepagepaiement_ip.cgi'
+                'https://preprod-tpeweb.paybox.com/cgi/FramepagepaiementRWD.cgi'
             ),
             'production' => array(
-                'https://tpeweb.paybox.com/cgi/MYframepagepaiement_ip.cgi',
-                'https://tpeweb1.paybox.com/cgi/MYframepagepaiement_ip.cgi',
+                'https://tpeweb.paybox.com/cgi/FramepagepaiementRWD.cgi',
+                'https://tpeweb1.paybox.com/cgi/FramepagepaiementRWD.cgi',
             ),
         ),
         'direct' => array(

@@ -13,7 +13,7 @@
  * support@paybox.com so we can mail you a copy immediately.
  *
  *
- * @version   3.0.6
+ * @version   3.0.7
  * @author    BM Services <contact@bm-services.com>
  * @copyright 2012-2017 Sofinco3X
  * @license   http://opensource.org/licenses/OSL-3.0
