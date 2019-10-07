@@ -356,8 +356,8 @@ class Sofinco3X_Epayment_Model_Sofinco3X
         }
 
         $card = $cards[$code];
-        // $values['PBX_TYPEPAIEMENT'] = $card['payment'];
-		// $values['PBX_TYPECARTE'] = $config->getSubscription();
+        $values['PBX_TYPEPAIEMENT'] = $card['payment'];
+		$values['PBX_TYPECARTE'] = $config->getSubscription();
 
         //Customer information
         $values['PBX_CUSTOMER'] = trim(substr($this->getCustomerInformation($order),21));
