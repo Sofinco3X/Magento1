@@ -260,10 +260,10 @@ class Sofinco3X_Epayment_Model_Sofinco3X
 
         $version = '00103';
         $password = $config->getPassword();
-        if ($config->getSubscription() == 'plus') {
-            $version = '00104';
-            $password = $config->getPasswordplus();
-        }
+        // if ($config->getSubscription() == 'plus') {
+            // $version = '00104';
+            // $password = $config->getPasswordplus();
+        // }
 
         $now = new DateTime('now', new DateTimeZone('Europe/Paris'));
         $fields = array(
@@ -338,7 +338,7 @@ class Sofinco3X_Epayment_Model_Sofinco3X
 
         // Merchant information
         $values['PBX_SITE'] = $config->getSite();
-        $values['PBX_RANG'] = substr(sprintf('%02d', $config->getRank()), -2);
+        $values['PBX_RANG'] = substr(sprintf('%03d', $config->getRank()), -3);
         $values['PBX_IDENTIFIANT'] = $config->getIdentifier();
 
         // Card information
@@ -356,13 +356,15 @@ class Sofinco3X_Epayment_Model_Sofinco3X
         }
 
         $card = $cards[$code];
-        $values['PBX_TYPEPAIEMENT'] = $card['payment'];
-        $values['PBX_TYPECARTE'] = $card['card'];
-        // if ($card['payment'] == 'KWIXO') {
-        //     $kwixo = Mage::getSingleton('sf3xep/kwixo');
-        //     $values = $kwixo->buildKwixoParams($order, $values);
-        // }
-        // Order information
+        // $values['PBX_TYPEPAIEMENT'] = $card['payment'];
+		// $values['PBX_TYPECARTE'] = $config->getSubscription();
+
+        //Customer information
+        $values['PBX_CUSTOMER'] = trim(substr($this->getCustomerInformation($order),21));
+        //Billing information
+        $values['PBX_BILLING'] = trim(substr($this->getBillingInformation($order),21));
+
+
         $values['PBX_PORTEUR'] = $this->getBillingEmail($order);
         $values['PBX_DEVISE'] = $this->getCurrency($order);
         $values['PBX_CMD'] = $this->tokenizeOrder($order);
@@ -428,16 +430,16 @@ class Sofinco3X_Epayment_Model_Sofinco3X
         $lang = $languages[$lang];
         $values['PBX_LANGUE'] = $lang;
 
-        $values['PBX_SOURCE'] = '';
-        // Choose page format depending on browser/devise
-        if (Mage::helper('sf3xep/mobile')->isMobile()) {
-            $values['PBX_SOURCE'] = 'XHTML';
-        }
+        if($card['payment'] != 'LIMONETIK'){
+			// Choose page format depending on browser/devise
+			if (Mage::helper('sf3xep/mobile')->isMobile()) {
+				$values['PBX_SOURCE'] = 'XHTML';
+			}
 
-        if ($config->getResponsiveConfig() == 1) {
-            $values['PBX_SOURCE'] = 'RWD';
-        }
-
+			if ($config->getResponsiveConfig() == 1) {
+				$values['PBX_SOURCE'] = 'RWD';
+			}
+		}
         // Specific PayPal
         if ($payment->getCode() == 'sf3xep_paypal') {
             $separator = '#';
@@ -501,6 +503,70 @@ class Sofinco3X_Epayment_Model_Sofinco3X
         return $values;
     }
 
+
+
+/**generating xml for customer and billing**/
+    public function getCustomerInformation(Mage_Sales_Model_Order $order)
+    {
+        // if (null !== $order->getCustomerId()) {
+            // $customer = $this->_objectManager
+                // ->get('Magento\Customer\Model\Customer')
+                // ->load($order->getCustomerId());
+        // }
+        $simpleXMLElement = new SimpleXMLElement("<Customer/>");
+        // $customer = $simpleXMLElement->addChild('Customer');
+        $simpleXMLElement->addChild('Id',$order->getCustomerId());        
+//$order->getCustomerName()        
+        return  $simpleXMLElement->asXML();
+    }
+	
+    public function getBillingInformation(Mage_Sales_Model_Order $order)
+    {
+        $address = $order->getBillingAddress();
+        $firstName = $order->getCustomerFirstname();
+        $lastName = $order->getCustomerLastname();
+        $address1 = is_array($address->getStreet()) ? $address->getStreet()[0] : $address->getStreet();
+        $zipCode = $address->getPostcode();
+        $city = $address->getCity();
+        $countryCode = $this->getCountryCode($address->country_id);
+        $countryName = $address->country_id;
+        $countryCodeHomePhone = $this->getCountryPhoneCode($address->country_id);
+        $homePhone = substr($address->getTelephone(),3);
+        $countryCodeMobilePhone = $this->getCountryPhoneCode($address->country_id);
+        $mobilePhone = substr($address->getTelephone(),3);
+		$title = $order->getCustomerGender();
+        if(empty($title))$title="Mr";
+        $simpleXMLElement = new SimpleXMLElement("<Billing/>");
+        // $billingXML = $simpleXMLElement->addChild('Billing');
+        $addressXML = $simpleXMLElement->addChild('Address');
+        $addressXML->addChild('Title',$title);
+        $addressXML->addChild('FirstName',$firstName);
+        $addressXML->addChild('LastName',$lastName);
+        $addressXML->addChild('Address1',$address1);
+        $addressXML->addChild('ZipCode',$zipCode);
+        $addressXML->addChild('City',$city);
+        $addressXML->addChild('CountryCode',$countryCode);
+        $addressXML->addChild('CountryName',$countryName);
+        $addressXML->addChild('CountryCodeHomePhone',$countryCodeHomePhone);
+        $addressXML->addChild('HomePhone',$homePhone);
+        $addressXML->addChild('CountryCodeMobilePhone',$countryCodeMobilePhone);
+        $addressXML->addChild('MobilePhone',$mobilePhone);
+        
+        return $simpleXMLElement->asXML();
+    }
+
+    public function getCountryCode($countryCode)
+    {
+        $countryMapper = Mage::getSingleton('sf3xep/IsoCountry');
+        return $countryMapper->getIsoCode($countryCode);
+    }
+
+    public function getCountryPhoneCode($countryCode)
+    {
+        $countryMapper = Mage::getSingleton('sf3xep/IsoCountry');
+        return $countryMapper->getPhoneCode($countryCode);
+    }
+    
     public function cleanForPaypalData($string, $nbCaracter = 0)
     {
         $string = trim(preg_replace("/[^-+. a-zA-Z0-9]/", " ", Mage::helper('core')->removeAccents($string)));
