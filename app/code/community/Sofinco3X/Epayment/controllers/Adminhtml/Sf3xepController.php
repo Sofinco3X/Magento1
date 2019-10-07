@@ -20,7 +20,7 @@
  * @link      http://www.paybox.com/
  */
 
-class Sofinco3X_Epayment_Adminhtml_Sfx3xepController extends Mage_Adminhtml_Controller_Action
+class Sofinco3X_Epayment_Adminhtml_Sf3xepController extends Mage_Adminhtml_Controller_Action
 {
     protected function _isAllowed()
     {

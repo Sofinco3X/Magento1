@@ -25,9 +25,8 @@ class Sofinco3X_Epayment_Model_Admin_Subscription
     public function toOptionArray()
     {
         return array(
-            array('value' => 'essential', 'label' => Mage::helper('sf3xep')->__('Sofinco3X System (Essential Pack)')),
-            array('value' => 'flexible', 'label' => Mage::helper('sf3xep')->__('Sofinco3X System + Sofinco3X Direct (Flexible Pack)')),
-            array('value' => 'plus', 'label' => Mage::helper('sf3xep')->__('Sofinco3X System + Sofinco3X Direct Plus (Flexible Pack)')),
+            array('value' => 'SOF3XSF', 'label' => Mage::helper('sf3xep')->__('Sofinco3X Sans frais')),
+            array('value' => 'SOF3X', 'label' => Mage::helper('sf3xep')->__('Sofinco3X Avec frais')),
         );
     }
 }
