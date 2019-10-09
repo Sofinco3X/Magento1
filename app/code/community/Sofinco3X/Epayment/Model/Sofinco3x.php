@@ -13,7 +13,7 @@
  * support@paybox.com so we can mail you a copy immediately.
  *
  *
- * @version   3.0.7
+ * @version   3.0.6
  * @author    BM Services <contact@bm-services.com>
  * @copyright 2012-2017 Sofinco3X
  * @license   http://opensource.org/licenses/OSL-3.0
@@ -523,19 +523,23 @@ class Sofinco3X_Epayment_Model_Sofinco3X
     public function getBillingInformation(Mage_Sales_Model_Order $order)
     {
         $address = $order->getBillingAddress();
-        $firstName = $order->getCustomerFirstname();
-        $lastName = $order->getCustomerLastname();
+        $firstName = trim($order->getCustomerFirstname());
+        $lastName = trim($order->getCustomerLastname());
         $address1 = is_array($address->getStreet()) ? $address->getStreet()[0] : $address->getStreet();
+        $address2 = is_array($address->getStreet()) ? $address->getStreet()[1] : "";
         $zipCode = $address->getPostcode();
         $city = $address->getCity();
         $countryCode = $this->getCountryCode($address->country_id);
-        $countryName = $address->country_id;
+		$countryText = $this->getCountryName($address->country_id);
+        $countryName = substr($countryText,0,1).strtolower(substr($countryText,1));
         $countryCodeHomePhone = $this->getCountryPhoneCode($address->country_id);
         $homePhone = substr($address->getTelephone(),3);
         $countryCodeMobilePhone = $this->getCountryPhoneCode($address->country_id);
         $mobilePhone = substr($address->getTelephone(),3);
-		$title = $order->getCustomerGender();
-        if(empty($title))$title="Mr";
+		$customer_id = $order->getCustomerId();
+		$customerData = Mage::getModel('customer/customer')->load($customer_id); 
+		$title = $customerData->prefix;		
+		if(empty($tilte))$title = "Mr";
         $simpleXMLElement = new SimpleXMLElement("<Billing/>");
         // $billingXML = $simpleXMLElement->addChild('Billing');
         $addressXML = $simpleXMLElement->addChild('Address');
@@ -543,6 +547,7 @@ class Sofinco3X_Epayment_Model_Sofinco3X
         $addressXML->addChild('FirstName',$firstName);
         $addressXML->addChild('LastName',$lastName);
         $addressXML->addChild('Address1',$address1);
+        $addressXML->addChild('Address2',$address2);
         $addressXML->addChild('ZipCode',$zipCode);
         $addressXML->addChild('City',$city);
         $addressXML->addChild('CountryCode',$countryCode);
@@ -559,6 +564,12 @@ class Sofinco3X_Epayment_Model_Sofinco3X
     {
         $countryMapper = Mage::getSingleton('sf3xep/IsoCountry');
         return $countryMapper->getIsoCode($countryCode);
+    }
+
+    public function getCountryName($countryCode)
+    {
+        $countryMapper = Mage::getSingleton('sf3xep/IsoCountry');
+        return $countryMapper->getName($countryCode);
     }
 
     public function getCountryPhoneCode($countryCode)
